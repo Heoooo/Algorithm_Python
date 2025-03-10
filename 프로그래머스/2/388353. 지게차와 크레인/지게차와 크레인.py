@@ -48,6 +48,7 @@ def solution(storage, requests):
                                 break
             for ti, tj in tmp:
                 graph[ti][tj] = '0'
+            update()
         
         else:
             alph = request[0]
