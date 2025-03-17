@@ -3,13 +3,8 @@ def solution(targets):
     
     rs = 0
     fin = 0
-    for s, e in targets:
-        if fin == 0:
-            rs += 1
-            fin = e
-            continue
-        
-        if s < fin <= e:
+    for s, e in targets:    
+        if s < fin:
             continue
         else:
             rs += 1
