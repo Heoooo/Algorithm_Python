@@ -1,54 +1,40 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
+import java.io.*;
+import java.util.*;
+ 
 public class Solution {
-	
-	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	static StringTokenizer st;
-	static StringBuilder sb;
-	
-	static int L;
-	static int N;
-	static int rs;
-	static int[] tscore, tcal;
-	
-	static void dfs(int n, int score, int cal) {
-		if (cal > L) {
-			return;
-		}
-		
-		if (n == N) {
-			rs = Integer.max(score, rs);
-			return;
-		}
-		
-		dfs(n+1, score+tscore[n], cal+tcal[n]);
-		dfs(n+1, score, cal);
-		
-	}
-	
-	public static void main(String[] args) throws NumberFormatException, IOException {
-		// TODO Auto-generated method stub
-		int T = Integer.parseInt(br.readLine());
-		for (int i=1; i<=T; i++) {
-			st = new StringTokenizer(br.readLine());
-			N = Integer.parseInt(st.nextToken());
-			L = Integer.parseInt(st.nextToken());
-			tscore = new int[N];
-			tcal = new int[N];
-			
-			for (int j=0; j<N; j++) {
-				st = new StringTokenizer(br.readLine());
-				tscore[j] = Integer.parseInt(st.nextToken());
-				tcal[j] = Integer.parseInt(st.nextToken());
-			}
-			
-			rs = 0;
-			dfs(0,0,0);
-			System.out.println("#"+i+" "+rs);
-		}
-	}
-
+   
+  static BufferedReader br;
+  static StringBuilder sb = new StringBuilder();
+  static final int SCORE = 0, CALO = 1;
+  static int T, N, L;
+  static int[][] food = new int[22][2];
+ 
+  static int run() {
+    int[] dp = new int[L + 1];
+    for (int i = 0; i < N; ++i) {
+      for (int c = L; c >= food[i][CALO]; --c) {
+        dp[c] = Math.max(dp[c], dp[c - food[i][CALO]] + food[i][SCORE]);
+      }
+    }
+    return dp[L];
+  }
+ 
+  public static void main(String[] args) throws IOException {
+    br = new BufferedReader(new InputStreamReader(System.in));
+ 
+    T = Integer.parseInt(br.readLine());
+    for (int tc = 1; tc <= T; ++tc) {
+      StringTokenizer st = new StringTokenizer(br.readLine());
+      N = Integer.parseInt(st.nextToken());
+      L = Integer.parseInt(st.nextToken());
+ 
+      for (int i = 0; i < N; ++i) {
+        st = new StringTokenizer(br.readLine());
+        food[i][SCORE] = Integer.parseInt(st.nextToken());
+        food[i][CALO] = Integer.parseInt(st.nextToken());
+      }
+      sb.append('#').append(tc).append(' ').append(run()).append('\n');
+    }
+    System.out.print(sb);
+  }
 }
