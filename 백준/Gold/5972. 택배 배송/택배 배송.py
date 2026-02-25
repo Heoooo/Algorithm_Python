@@ -14,6 +14,8 @@ dist[1] = 0
 
 while heap:
     w, node = heapq.heappop(heap)
+    if node == N:
+        break
     if w > dist[node]:
         continue
     for nw, next_node in graph[node]:
