@@ -1,15 +1,19 @@
 def solution(sequence):
-    N = len(sequence)
-    dp1 = [0] * N #첫번째가 -1
-    dp2 = [0] * N
+
+    dp1, dp2 = 0, 0
+    max_sum1, max_sum2 = float('-inf'), float('-inf')
     
-    dp1[0] = sequence[0] * -1
-    dp2[0] = sequence[0]
-    for i in range(1, N):
-        if i%2 != 0:
-            dp1[i] = max(dp1[i-1] + sequence[i], sequence[i])
-            dp2[i] = max(dp2[i-1] + sequence[i]*-1, sequence[i]*-1)
-        else:
-            dp1[i] = max(dp1[i-1] + sequence[i]*-1, sequence[i]*-1)
-            dp2[i] = max(dp2[i-1] + sequence[i], sequence[i])
-    return max(max(dp1), max(dp2))
+    pulse = 1
+    for num in sequence:
+        val1 = num * pulse
+        val2 = num * (-pulse)
+        
+        dp1 = max(dp1 + val1, val1)
+        dp2 = max(dp2 + val2, val2)
+        
+        max_sum1 = max(max_sum1, dp1)
+        max_sum2 = max(max_sum2, dp2)
+        
+        pulse *= -1
+        
+    return max(max_sum1, max_sum2)
